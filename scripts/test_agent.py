@@ -13,7 +13,7 @@ def main():
     llm = MyLLM(model_id=MODEL_ID)
     agent = Agent(llm)
 
-    result = agent.run("What is half of 8?")
+    result = agent.run("I have 100 matchsticks, I burnt seventy percent of those. How many matchsticks are left?")
     print(f"\nFinal result: {result}")
 
 

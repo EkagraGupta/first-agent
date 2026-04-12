@@ -1,6 +1,13 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+# TODO: Or add token globally using huggingface_hub's login() function call
+HF_TOKEN = os.getenv("HF_TOKEN")
+if not HF_TOKEN:
+    raise RuntimeError("HF_TOKEN not found")
 
 class MyLLM:
     def __init__(
@@ -13,7 +20,7 @@ class MyLLM:
         self.use_4bit = use_4bit
         self.device = device
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
 
         quantization_config = None
         if use_4bit:
@@ -28,6 +35,7 @@ class MyLLM:
             device_map=device,
             torch_dtype="auto",
             quantization_config=quantization_config,
+            token=HF_TOKEN,
         )
 
     @torch.inference_mode()
