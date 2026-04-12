@@ -1,1 +1,2 @@
 MODEL_ID = "Qwen/Qwen3-4B-Instruct-2507"
+MAX_NEW_TOKENS = 50

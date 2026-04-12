@@ -14,7 +14,7 @@ def main():
     agent = Agent(llm)
 
     result = agent.run("What is half of 8?")
-    print(f"\n Final result: {result}")
+    print(f"\nFinal result: {result}")
 
 
 if __name__=="__main__":
