@@ -8,6 +8,7 @@ def extract_first_json_object(text: str) -> dict:
         raise ValueError(f"No JSON object found in model output: \n\t{text}")
     
     decoder = json.JSONDecoder()
+    print(text[start:])
     obj, end = decoder.raw_decode(text[start:])
     return obj
 
@@ -19,9 +20,6 @@ def parse_json_step(text: str) -> dict:
         raise ValueError("Top-level JSON must be an object")
 
     step_type = obj.get("type")
-    if step_type not in {"tool", "final"}:
-        raise ValueError(f"Invalid step type: {step_type}")
-
     if step_type == "tool":
         name = obj.get("name")
         args = obj.get("args")
@@ -36,15 +34,24 @@ def parse_json_step(text: str) -> dict:
             "type": "tool",
             "name": name,
             "args": args,
-            "raw": obj,
+        }
+    
+    if step_type=="final":
+        answer = obj.get("answer")
+        if not isinstance(answer, str):
+            raise ValueError("Final step must include string answer")
+        return {
+            "type": "final",
+            "answer": answer,
         }
 
-    answer = obj.get("answer")
-    if not isinstance(answer, str):
-        raise ValueError("Final step must include string field 'answer'")
-
-    return {
-        "type": "final",
-        "answer": answer,
-        "raw": obj,
-    }
+    if step_type=="final":
+        answer = obj.get("answer")
+        if not isinstance(answer, str):
+            raise ValueError("Final step must include string answer")
+        return {
+            "type": "final",
+            "answer": answer,
+        }
+    
+    raise ValueError(f"Invalid step type: {step_type}")
