@@ -14,9 +14,14 @@ class Agent:
     def run(self, user_query: str) -> str:
         history: list[str] = []
 
-        tool_manifest = """
-        calculator(a: float, b: float, op: str) -> float
-        Performs arithmetic operations. op must be one of: add, sub, mul, div. 
+        tool_manifest = """calculator(a: float, b: float, op: str) -> float
+        Performs arithmetic operations. op must be one of: add, sub, mul, div.
+
+        geocode_city(city: str) -> dict
+        Resolve a city name into latitude and longitude.
+
+        get_weather(latitude: float, longitude: float) -> dict
+        Return current weather for the given coordinates.
         """
 
         for step in range(self.max_steps):

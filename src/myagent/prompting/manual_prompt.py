@@ -38,6 +38,18 @@ What is half of 8?
 Example 4
 User: What is the capital of France?
 {"type":"final","answer":"Paris"}
+
+Example 5
+User: What is the weather in Berlin?
+{"type":"tool","name":"geocode_city","args":{"city":"Berlin"}}
+
+Conversation history:
+User: What is the weather in Berlin?
+Assistant: {"type":"tool","name":"geocode_city","args":{"city":"Berlin"}}
+Observation: {"name":"Berlin","country":"Germany","latitude":52.52437,"longitude":13.41053}
+Current user request:
+What is the weather in Berlin?
+{"type":"tool","name":"get_weather","args":{"latitude":52.52437,"longitude":13.41053}}
 """
 
 def render_prompt(

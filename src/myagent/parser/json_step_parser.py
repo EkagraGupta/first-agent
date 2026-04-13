@@ -5,6 +5,8 @@ def extract_first_json_object(text: str) -> dict:
 
     start = text.find("{")
     if start == -1:
+        if isinstance(text, str):
+            text = f"{text!r}"
         raise ValueError(f"No JSON object found in model output: \n\t{text}")
     
     decoder = json.JSONDecoder()
